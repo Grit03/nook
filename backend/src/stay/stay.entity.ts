@@ -49,7 +49,11 @@ export class Stay {
   @Column({ nullable: false })
   address: string;
 
-  @Column({ type: 'point', transformer: pointTransformer })
+  // DB 컬럼은 `point NOT NULL SRID 0` (마이그레이션 AddSridToStayPoint).
+  // SRID 속성이 있어야 MySQL 8 옵티마이저가 공간 인덱스를 쓴다.
+  // TypeORM MySQL 드라이버는 srid 옵션을 DDL에 반영하지 않으므로,
+  // 이 컬럼을 다시 만드는 마이그레이션을 생성하면 SRID 0을 직접 붙여야 한다.
+  @Column({ type: 'point', srid: 0, transformer: pointTransformer })
   @Index({ spatial: true })
   point: [number, number];
 

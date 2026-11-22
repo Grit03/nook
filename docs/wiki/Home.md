@@ -25,7 +25,7 @@ nook은 지도에 보이는 영역 안의 작은 숙소(스테이, stay)를 찾�
 2. [데이터 모델](02-Data-Model.md)
    - 소셜 로그인을 고려한 유저 설계, PK로 UUID를 쓴 이유, ENUM 대신 varchar, 이름 규칙
 3. [지도 영역 검색](03-Geo-Search.md)
-   - POINT 타입과 공간 인덱스, `MBRContains`를 고른 이유, 쿼리 파라미터 변환
+   - POINT 타입과 공간 인덱스, `MBRContains`를 고른 이유, 쿼리 파라미터 변환, SRID 0으로 인덱스가 쓰이게 한 과정
 4. [설정, 마이그레이션, 시딩](04-DB-Operations.md)
    - 환경 변수 로딩 순서, `synchronize` 대신 마이그레이션, 대량 시드 데이터
 
