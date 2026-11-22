@@ -205,6 +205,7 @@ npm run dev                     # http://localhost:5173
 - 인증, 유저, 소셜 계정, 예약·결제 엔티티, 영역 검색, 시더, 마이그레이션은 기존 코드 그대로이고, 이름만 바꿨습니다 (`Accomodation` → `Stay`, `Reservation` → `Booking`).
 - 시드 데이터용으로 새로 작성: 스테이 이름(`stay-name.ts`), 주소(`stay-address.ts`), 대한민국 육지 좌표(`korea-land.ts`)
 - 성능 수정: `stays.point` 컬럼에 `SRID 0`을 붙이는 마이그레이션 추가. SRID가 없으면 MySQL 8이 공간 인덱스를 쓰지 않습니다.
+- 이름 정리: 테이블 이름을 바꾼 뒤 옛 이름 기준으로 남아 있던 외래 키·인덱스 이름을 새 이름으로 맞추는 마이그레이션 추가
 - 최신 버전(Nest 12, TypeScript 6 strict, TypeORM 1.x, @keyv/redis 6)에 맞추느라 바꾼 것:
 
 | 위치 | 변경 | 이유 |
