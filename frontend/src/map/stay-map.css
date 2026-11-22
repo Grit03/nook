@@ -1,0 +1,105 @@
+.stay-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  /* 네이버 지도 컨트롤의 z-index 가 바깥(고정 헤더)으로 새지 않게 쌓임 맥락을 분리 */
+  isolation: isolate;
+}
+/* 네이버 지도가 컨테이너에 position: relative 를 인라인으로 덮어쓰므로,
+   absolute + inset 대신 크기를 직접 준다. (그렇지 않으면 높이가 0이 된다) */
+.stay-map__canvas {
+  width: 100%;
+  height: 100%;
+}
+.stay-map__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  color: var(--ink-2);
+  font-size: 14px;
+  background: var(--paper-2);
+}
+.stay-map__overlay--error p:first-child {
+  color: var(--clay);
+  font-weight: 500;
+}
+.stay-map__hint {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* 가격 핀 (네이버 지도 HTML 마커 안에 들어간다) */
+.pin-anchor {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.pin {
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  transform: translateX(-50%);
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 6px rgba(31, 29, 25, 0.18);
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transform: translateX(-50%) rotate(45deg);
+}
+.pin:hover {
+  transform: translateX(-50%) scale(1.06);
+}
+.pin--active {
+  background: var(--pine);
+  color: var(--paper);
+  border-color: var(--pine);
+  transform: translateX(-50%) scale(1.1);
+}
+.pin--active::after {
+  border-color: var(--pine);
+}
+
+/* 상위 가격 핀 밖의 스테이는 작은 점으로 */
+.pin-dot {
+  position: absolute;
+  left: -6px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pine);
+  border: 2px solid var(--card);
+  box-shadow: 0 1px 3px rgba(31, 29, 25, 0.3);
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.pin-dot:hover {
+  transform: scale(1.3);
+}
