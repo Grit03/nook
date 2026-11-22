@@ -58,6 +58,13 @@ TypeORM의 `synchronize: true`는 엔티티가 바뀌면 서버 시작 시 테�
 **현재 코드와 다른 점**
 CommonJS 프로젝트(Nest 12 `--type cjs`)라서 TypeORM CLI 실행기를 `typeorm-ts-node-esm`에서 `typeorm-ts-node-commonjs`로 바꿨습니다.
 
+**테이블 이름을 바꾼 뒤 제약 조건 이름 맞추기**
+TypeORM은 이름을 지정하지 않은 외래 키(FK)와 인덱스의 이름을 **테이블 이름과 컬럼 이름의 해시**로 만듭니다(`FK_b274b7...` 같은 이름). 테이블을 `accomodations` → `stays`, `reservations` → `bookings`로 바꿀 때 기존 마이그레이션의 문자열만 고쳤더니, 마이그레이션 속 제약 조건 이름은 옛 테이블 이름 기준으로 남았습니다. 그래서 엔티티 기준 이름과 DB의 이름이 달라, `migration:generate`를 할 때마다 상관없는 이름 변경이 섞여 나왔습니다.
+
+이미 적용된 마이그레이션은 고치지 않고, `migration:generate`로 이름만 바꾸는 마이그레이션(`Rename_Constraints_After_Stay_Booking_Rename`)을 추가했습니다. 외래 키 4개와 인덱스 2개를 지웠다가 새 이름으로 다시 만들고, 동작(`ON DELETE` 등)은 그대로입니다. 적용 후에는 `migration:generate --dr`가 "No changes"를 출력합니다.
+
+이름이 중요한 제약 조건은 처음부터 이름을 직접 주는 편이 안전합니다. 유니크 제약은 `@Unique('UQ_booking_id', ['booking'])`처럼 이미 이름을 지정해 두어서 이번 변경 대상이 아니었습니다.
+
 ## 3. 대량 시드 데이터는 별도 실행 환경에서, 배치로
 
 **상황**
