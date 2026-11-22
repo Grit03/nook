@@ -26,7 +26,7 @@
 
 <div align="center">
 
-**[📖 백엔드 의사결정 위키](docs/wiki/Home.md)**
+**[📖 백엔드 의사결정 위키](https://github.com/Grit03/nook/wiki)**
 
 </div>
 
@@ -153,7 +153,7 @@ npm run dev                     # http://localhost:5173
 │       ├── map/              # 네이버 지도 로더, 지도 컴포넌트
 │       ├── page/             # 홈(지도 검색), 로그인·회원가입
 │       └── component/        # 헤더, 스테이 카드
-├── docs/wiki/                # 백엔드 의사결정
+├── docs/images/              # README 스크린샷
 └── docker-compose.yml        # MySQL, Redis
 ```
 
@@ -180,14 +180,14 @@ npm run dev                     # http://localhost:5173
 
 ## 의사결정
 
-백엔드에서 무엇을 고민했고 왜 그렇게 골랐는지는 위키에 정리했습니다.
+백엔드에서 무엇을 고민했고 왜 그렇게 골랐는지는 [GitHub 위키](https://github.com/Grit03/nook/wiki)에 정리했습니다.
 
 | 문서 | 내용 |
 | --- | --- |
-| [인증](docs/wiki/01-Auth.md) | Access Token과 Refresh Token을 나눈 이유, Refresh Token을 httpOnly 쿠키와 Redis에 두는 이유, 가드와 `@User()` 데코레이터 |
-| [데이터 모델](docs/wiki/02-Data-Model.md) | 소셜 로그인을 고려한 유저 설계, 유저 PK로 UUID, ENUM 대신 varchar, 이름 규칙 |
-| [지도 영역 검색](docs/wiki/03-Geo-Search.md) | POINT 타입과 공간 인덱스, `MBRContains`를 고른 이유, SRID 0 지정으로 공간 인덱스가 쓰이게 한 과정(DB 실행 시간 13~24배 단축) |
-| [설정, 마이그레이션, 시딩](docs/wiki/04-DB-Operations.md) | 환경 변수 로딩 순서, `synchronize` 대신 마이그레이션, 대량 시드 데이터 |
+| [인증](https://github.com/Grit03/nook/wiki/1.-%EC%9D%B8%EC%A6%9D) | Access Token과 Refresh Token을 나눈 이유, Refresh Token을 httpOnly 쿠키와 Redis에 두는 이유, 가드와 `@User()` 데코레이터 |
+| [데이터 모델](https://github.com/Grit03/nook/wiki/2.-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%AA%A8%EB%8D%B8) | 소셜 로그인을 고려한 유저 설계, 유저 PK로 UUID, ENUM 대신 varchar, 이름 규칙 |
+| [지도 영역 검색](https://github.com/Grit03/nook/wiki/3.-%EC%A7%80%EB%8F%84-%EC%98%81%EC%97%AD-%EA%B2%80%EC%83%89) | POINT 타입과 공간 인덱스, `MBRContains`를 고른 이유, SRID 0 지정으로 공간 인덱스가 쓰이게 한 과정(DB 실행 시간 13~24배 단축) |
+| [설정, 마이그레이션, 시딩](https://github.com/Grit03/nook/wiki/4.-%EC%84%A4%EC%A0%95,-%EB%A7%88%EC%9D%B4%EA%B7%B8%EB%A0%88%EC%9D%B4%EC%85%98,-%EC%8B%9C%EB%94%A9) | 환경 변수 로딩 순서, `synchronize` 대신 마이그레이션, 대량 시드 데이터 |
 
 <br />
 
@@ -247,6 +247,6 @@ npm run dev                     # http://localhost:5173
 
 <div align="center">
 
-**[📖 백엔드 의사결정 위키](docs/wiki/Home.md)**
+**[📖 백엔드 의사결정 위키](https://github.com/Grit03/nook/wiki)**
 
 </div>
