@@ -75,7 +75,7 @@
 
 ### 1. 지도 영역 검색
 
-지도 이동이 끝나면 보이는 영역의 남서쪽·북동쪽 좌표로 서버에 검색을 요청합니다. 서버는 MySQL 공간 인덱스(spatial index)로 영역 안의 스테이를 찾습니다. 결과가 많을 때는 정렬 기준 상위 40곳만 가격 핀으로, 나머지는 점으로 표시해 지도가 덮이지 않게 했습니다.
+지도 이동이 끝나면 보이는 영역의 남서쪽·북동쪽 좌표로 서버에 검색을 요청합니다. 서버는 MySQL 공간 인덱스(spatial index)로 영역 안의 스테이를 찾습니다. 스테이 30만 개에서 경주 영역 검색이 약 36ms 걸립니다. 결과가 많을 때는 정렬 기준 상위 40곳만 가격 핀으로, 나머지는 점으로 표시해 지도가 덮이지 않게 했습니다.
 
 ### 2. 목록과 지도 연동
 
@@ -186,7 +186,7 @@ npm run dev                     # http://localhost:5173
 | --- | --- |
 | [인증](docs/wiki/01-Auth.md) | Access Token과 Refresh Token을 나눈 이유, Refresh Token을 httpOnly 쿠키와 Redis에 두는 이유, 가드와 `@User()` 데코레이터 |
 | [데이터 모델](docs/wiki/02-Data-Model.md) | 소셜 로그인을 고려한 유저 설계, 유저 PK로 UUID, ENUM 대신 varchar, 이름 규칙 |
-| [지도 영역 검색](docs/wiki/03-Geo-Search.md) | POINT 타입과 공간 인덱스, `MBRContains`를 고른 이유, 공간 인덱스가 실제로 쓰이지 않던 문제 |
+| [지도 영역 검색](docs/wiki/03-Geo-Search.md) | POINT 타입과 공간 인덱스, `MBRContains`를 고른 이유, SRID 0 지정으로 공간 인덱스가 쓰이게 한 과정(DB 실행 시간 13~24배 단축) |
 | [설정, 마이그레이션, 시딩](docs/wiki/04-DB-Operations.md) | 환경 변수 로딩 순서, `synchronize` 대신 마이그레이션, 대량 시드 데이터 |
 
 <br />
@@ -204,6 +204,7 @@ npm run dev                     # http://localhost:5173
 
 - 인증, 유저, 소셜 계정, 예약·결제 엔티티, 영역 검색, 시더, 마이그레이션은 기존 코드 그대로이고, 이름만 바꿨습니다 (`Accomodation` → `Stay`, `Reservation` → `Booking`).
 - 시드 데이터용으로 새로 작성: 스테이 이름(`stay-name.ts`), 주소(`stay-address.ts`), 대한민국 육지 좌표(`korea-land.ts`)
+- 성능 수정: `stays.point` 컬럼에 `SRID 0`을 붙이는 마이그레이션 추가. SRID가 없으면 MySQL 8이 공간 인덱스를 쓰지 않습니다.
 - 최신 버전(Nest 12, TypeScript 6 strict, TypeORM 1.x, @keyv/redis 6)에 맞추느라 바꾼 것:
 
 | 위치 | 변경 | 이유 |
@@ -226,7 +227,6 @@ npm run dev                     # http://localhost:5173
 <br />
 
 - Refresh Token 쿠키의 `maxAge`가 초 단위로 적혀 있어 실제 수명이 약 10분입니다 (Express는 ms 단위).
-- `stays.point` 컬럼에 SRID가 없어 MySQL이 공간 인덱스를 쓰지 않고 전체를 스캔합니다. 자세한 측정과 해결 방법은 [지도 영역 검색](docs/wiki/03-Geo-Search.md#측정과-남은-과제)에 있습니다.
 - 검색 결과 개수 제한이 없어, 프론트에서 넓은 영역은 검색하지 않도록 막고 있습니다.
 - 예약·결제는 엔티티와 테이블만 있고 API와 화면은 없습니다.
 - 시드 좌표는 해안선에서 1km 이상 안쪽만 써서 백사장 바로 앞에는 스테이가 없습니다. 주소의 도로명과 번지는 실제 주소가 아니고, 사진은 picsum 랜덤 이미지입니다.
